@@ -1,0 +1,1470 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nova — The language that evolves with you.</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --nv: #7c3aed;
+        --nv-light: #a78bfa;
+        --nv-dark: #5b21b6;
+        --nv-glow: rgba(124, 58, 237, 0.25);
+        --bg: #08090f;
+        --surface: #10121d;
+        --surface2: #161928;
+        --border: rgba(124, 58, 237, 0.18);
+        --border2: rgba(255, 255, 255, 0.06);
+        --text: #e2e8f0;
+        --muted: #64748b;
+        --secondary: #94a3b8;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+
+      /* ── NAV ── */
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 2.5rem;
+        height: 62px;
+        background: rgba(8, 9, 15, 0.88);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 200;
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 800;
+        font-size: 18px;
+        letter-spacing: -0.3px;
+      }
+      .logo-mark {
+        width: 34px;
+        height: 34px;
+        background: linear-gradient(135deg, #7c3aed, #a78bfa);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 15px;
+        font-weight: 700;
+        color: #fff;
+      }
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2px;
+        align-items: center;
+      }
+      .nav-links a {
+        display: block;
+        padding: 7px 14px;
+        color: var(--secondary);
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 500;
+        border-radius: 7px;
+        transition:
+          color 0.15s,
+          background 0.15s;
+      }
+      .nav-links a:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .nav-cta {
+        background: var(--nv) !important;
+        color: #fff !important;
+        padding: 8px 20px !important;
+        font-weight: 600 !important;
+      }
+      .nav-cta:hover {
+        background: var(--nv-dark) !important;
+      }
+      .nav-hamburger {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--secondary);
+        font-size: 24px;
+      }
+
+      /* ── HERO ── */
+      .hero-wrap {
+        position: relative;
+        overflow: hidden;
+      }
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          ellipse 80% 60% at 50% -10%,
+          rgba(124, 58, 237, 0.18) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .hero {
+        position: relative;
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 96px 2.5rem 80px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(124, 58, 237, 0.12);
+        color: var(--nv-light);
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        border-radius: 20px;
+        padding: 5px 14px;
+        font-size: 12px;
+        font-weight: 600;
+        margin-bottom: 24px;
+        letter-spacing: 0.2px;
+      }
+      .badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--nv-light);
+        animation: pulse 2s infinite;
+        flex-shrink: 0;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      h1 {
+        font-size: 50px;
+        font-weight: 800;
+        line-height: 1.12;
+        color: #fff;
+        letter-spacing: -1px;
+        margin-bottom: 22px;
+      }
+      h1 em {
+        font-style: normal;
+        color: var(--nv-light);
+      }
+      .hero-sub {
+        font-size: 16px;
+        color: var(--secondary);
+        line-height: 1.8;
+        margin-bottom: 36px;
+        font-weight: 400;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn-primary {
+        background: var(--nv);
+        color: #fff;
+        padding: 13px 26px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 700;
+        text-decoration: none;
+        border: none;
+        cursor: pointer;
+        font-family: inherit;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+        display: inline-block;
+        letter-spacing: 0.1px;
+      }
+      .btn-primary:hover {
+        background: var(--nv-dark);
+        transform: translateY(-1px);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--secondary);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+        padding: 13px 26px;
+        border-radius: 9px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        font-family: inherit;
+        transition: all 0.15s;
+        display: inline-block;
+      }
+      .btn-outline:hover {
+        border-color: var(--nv-light);
+        color: var(--nv-light);
+        transform: translateY(-1px);
+      }
+
+      /* ── CODE PANEL ── */
+      .code-panel {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        font-family: "JetBrains Mono", monospace;
+        box-shadow: 0 0 40px rgba(124, 58, 237, 0.1);
+      }
+      .code-panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        background: var(--bg);
+        border-bottom: 1px solid var(--border);
+      }
+      .traffic-lights {
+        display: flex;
+        gap: 6px;
+      }
+      .tl {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      .tl-r {
+        background: #ff5f56;
+      }
+      .tl-y {
+        background: #ffbd2e;
+      }
+      .tl-g {
+        background: #27c93f;
+      }
+      .file-name {
+        font-size: 12px;
+        color: var(--muted);
+        font-family: "JetBrains Mono", monospace;
+      }
+      .code-tabs {
+        display: flex;
+        background: rgba(0, 0, 0, 0.2);
+        border-bottom: 1px solid var(--border);
+        overflow-x: auto;
+      }
+      .code-tab {
+        padding: 10px 18px;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--muted);
+        cursor: pointer;
+        border: none;
+        border-bottom: 2px solid transparent;
+        background: none;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        transition: all 0.15s;
+        white-space: nowrap;
+      }
+      .code-tab:hover {
+        color: var(--secondary);
+      }
+      .code-tab.active {
+        color: var(--nv-light);
+        border-bottom-color: var(--nv-light);
+      }
+      .code-body {
+        padding: 22px 20px;
+        font-size: 13px;
+        line-height: 1.85;
+        min-height: 220px;
+        display: none;
+      }
+      .code-body.active {
+        display: block;
+      }
+
+      /* Syntax colors */
+      .ck {
+        color: #c792ea;
+      }
+      .ct {
+        color: #7fdbca;
+      }
+      .cs {
+        color: #c3e88d;
+      }
+      .cc {
+        color: #546e7a;
+        font-style: italic;
+      }
+      .cf {
+        color: #82aaff;
+      }
+      .cp {
+        color: #f07178;
+      }
+      .cn {
+        color: #f78c6c;
+      }
+      .co {
+        color: #ffcb6b;
+      }
+      .ln {
+        color: #2d3a52;
+        padding-right: 18px;
+        user-select: none;
+        font-size: 12px;
+      }
+      .err-line {
+        background: rgba(255, 80, 80, 0.12);
+        border-radius: 3px;
+        padding: 0 4px;
+        border-bottom: 2px solid #ff5050;
+        color: #ff8a8a;
+      }
+      .err-msg {
+        display: block;
+        color: #ff6b6b;
+        font-size: 11px;
+        margin: 6px 0 4px 36px;
+        line-height: 1.5;
+      }
+      .ok-msg {
+        display: block;
+        color: #4ade80;
+        font-size: 11px;
+        margin: 6px 0 4px 36px;
+      }
+
+      /* ── SECTION COMMONS ── */
+      .section-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .section-label {
+        text-align: center;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2.5px;
+        color: var(--nv-light);
+        text-transform: uppercase;
+        margin-bottom: 10px;
+      }
+      .section-title {
+        text-align: center;
+        font-size: 36px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.5px;
+        margin-bottom: 14px;
+      }
+      .section-sub {
+        text-align: center;
+        color: var(--muted);
+        font-size: 15px;
+        max-width: 520px;
+        margin: 0 auto 56px;
+        line-height: 1.75;
+      }
+
+      /* ── FEATURES ── */
+      .features {
+        border-top: 1px solid var(--border2);
+        border-bottom: 1px solid var(--border2);
+        padding: 88px 2.5rem;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 16px;
+        padding: 30px 26px;
+        transition:
+          border-color 0.2s,
+          transform 0.2s;
+        position: relative;
+        overflow: hidden;
+      }
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--nv), transparent);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .card:hover {
+        border-color: var(--border);
+        transform: translateY(-5px);
+      }
+      .card:hover::before {
+        opacity: 1;
+      }
+      .card-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: rgba(124, 58, 237, 0.15);
+        border: 1px solid rgba(124, 58, 237, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        margin-bottom: 20px;
+      }
+      .card h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #e2e8f0;
+        margin-bottom: 10px;
+      }
+      .card p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      /* ── COMPARE ── */
+      .compare {
+        padding: 88px 2.5rem;
+      }
+      .compare-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 28px;
+        margin-top: 0;
+      }
+      .compare-col {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 16px;
+        overflow: hidden;
+      }
+      .compare-col.nova {
+        border-color: rgba(124, 58, 237, 0.35);
+      }
+      .compare-header {
+        padding: 16px 20px;
+        border-bottom: 1px solid var(--border2);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(0, 0, 0, 0.2);
+      }
+      .compare-col.nova .compare-header {
+        background: rgba(124, 58, 237, 0.08);
+        border-bottom-color: rgba(124, 58, 237, 0.2);
+      }
+      .compare-lang {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--secondary);
+      }
+      .compare-col.nova .compare-lang {
+        color: var(--nv-light);
+      }
+      .compare-badge {
+        background: rgba(124, 58, 237, 0.2);
+        color: var(--nv-light);
+        font-size: 10px;
+        font-weight: 700;
+        padding: 2px 8px;
+        border-radius: 4px;
+      }
+      .compare-code {
+        padding: 20px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12.5px;
+        line-height: 1.85;
+      }
+
+      /* ── STEPS ── */
+      .get-started {
+        padding: 88px 2.5rem;
+        border-top: 1px solid var(--border2);
+      }
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 24px;
+      }
+      .step-card {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 16px;
+        padding: 28px 24px;
+        position: relative;
+      }
+      .step-num {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(124, 58, 237, 0.13);
+        border: 1px solid rgba(124, 58, 237, 0.35);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 800;
+        color: var(--nv-light);
+        margin-bottom: 18px;
+      }
+      .step-card h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: #e2e8f0;
+        margin-bottom: 8px;
+      }
+      .step-card p {
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.65;
+      }
+      .step-cmd {
+        margin-top: 14px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-family: "JetBrains Mono", monospace;
+        font-size: 12px;
+        color: var(--nv-light);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .step-cmd span {
+        color: var(--muted);
+      }
+
+      /* ── STATS ── */
+      .stats {
+        background: var(--surface);
+        border-top: 1px solid var(--border2);
+        border-bottom: 1px solid var(--border2);
+        padding: 64px 2.5rem;
+      }
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        divide-color: var(--border2);
+      }
+      .stat {
+        text-align: center;
+        padding: 16px;
+      }
+      .stat + .stat {
+        border-left: 1px solid var(--border2);
+      }
+      .stat-num {
+        font-size: 42px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -1.5px;
+        margin-bottom: 6px;
+      }
+      .stat-num em {
+        font-style: normal;
+        color: var(--nv-light);
+      }
+      .stat-label {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      /* ── TESTIMONIALS ── */
+      .testimonials {
+        padding: 88px 2.5rem;
+      }
+      .testimonials-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+      }
+      .tcard {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 16px;
+        padding: 28px 24px;
+        transition: border-color 0.2s;
+      }
+      .tcard:hover {
+        border-color: var(--border);
+      }
+      .tcard blockquote {
+        font-size: 14px;
+        line-height: 1.75;
+        color: #cbd5e1;
+        font-style: italic;
+        margin-bottom: 20px;
+      }
+      .tcard cite {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-style: normal;
+      }
+      .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: rgba(124, 58, 237, 0.2);
+        border: 1px solid rgba(124, 58, 237, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--nv-light);
+        flex-shrink: 0;
+      }
+      .cite-name {
+        font-size: 13px;
+        color: var(--secondary);
+        font-weight: 600;
+        display: block;
+      }
+      .cite-role {
+        font-size: 12px;
+        color: var(--muted);
+        display: block;
+      }
+
+      /* ── LOGOS ── */
+      .logos {
+        padding: 32px 2.5rem 64px;
+        text-align: center;
+      }
+      .logos-label {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: #2d3a52;
+        text-transform: uppercase;
+        margin-bottom: 28px;
+      }
+      .logos-row {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .logo-chip {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border2);
+        border-radius: 8px;
+        padding: 9px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #334155;
+        transition: all 0.15s;
+      }
+      .logo-chip:hover {
+        color: var(--secondary);
+        border-color: rgba(124, 58, 237, 0.2);
+      }
+
+      /* ── CTA ── */
+      .cta {
+        padding: 96px 2.5rem;
+        text-align: center;
+        border-top: 1px solid var(--border2);
+        position: relative;
+        overflow: hidden;
+      }
+      .cta::before {
+        content: "";
+        position: absolute;
+        bottom: -50%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 300px;
+        background: radial-gradient(
+          ellipse,
+          rgba(124, 58, 237, 0.15) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .cta h2 {
+        font-size: 40px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: -0.7px;
+        margin-bottom: 16px;
+      }
+      .cta p {
+        color: var(--muted);
+        font-size: 16px;
+        margin-bottom: 36px;
+        max-width: 420px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.7;
+      }
+      .cta-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* ── FOOTER ── */
+      footer {
+        background: #050608;
+        border-top: 1px solid var(--border2);
+        padding: 56px 2.5rem 36px;
+      }
+      .footer-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1.8fr 1fr 1fr 1fr;
+        gap: 48px;
+        margin-bottom: 48px;
+      }
+      .footer-desc {
+        font-size: 13px;
+        color: #334155;
+        line-height: 1.7;
+        margin-top: 14px;
+        max-width: 230px;
+      }
+      .footer-col h4 {
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #2d3a52;
+        margin-bottom: 16px;
+      }
+      .footer-col ul {
+        list-style: none;
+      }
+      .footer-col li {
+        margin-bottom: 10px;
+      }
+      .footer-col a {
+        font-size: 13px;
+        color: #334155;
+        text-decoration: none;
+        transition: color 0.15s;
+      }
+      .footer-col a:hover {
+        color: var(--secondary);
+      }
+      .footer-bottom {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding-top: 28px;
+        border-top: 1px solid var(--border2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: #1e293b;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .footer-bottom a {
+        color: #1e293b;
+        text-decoration: none;
+      }
+      .footer-bottom a:hover {
+        color: var(--muted);
+      }
+
+      /* ── MOBILE ── */
+      @media (max-width: 960px) {
+        nav {
+          padding: 0 1.5rem;
+        }
+        .nav-links {
+          display: none;
+          flex-direction: column;
+          position: fixed;
+          top: 62px;
+          left: 0;
+          right: 0;
+          background: var(--bg);
+          border-bottom: 1px solid var(--border);
+          padding: 12px;
+          z-index: 999;
+        }
+        .nav-links.open {
+          display: flex;
+        }
+        .nav-hamburger {
+          display: block;
+        }
+        .hero {
+          grid-template-columns: 1fr;
+          padding: 56px 1.5rem 48px;
+          gap: 40px;
+        }
+        h1 {
+          font-size: 36px;
+        }
+        .cards,
+        .steps-grid,
+        .testimonials-grid {
+          grid-template-columns: 1fr;
+        }
+        .compare-grid {
+          grid-template-columns: 1fr;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .stat + .stat {
+          border-left: none;
+        }
+        .stat:nth-child(2n + 1) {
+          border-left: none;
+        }
+        .stat:nth-child(2) {
+          border-left: 1px solid var(--border2);
+        }
+        .stat:nth-child(4) {
+          border-left: 1px solid var(--border2);
+        }
+        .footer-inner {
+          grid-template-columns: 1fr 1fr;
+        }
+        .footer-desc {
+          max-width: 100%;
+        }
+      }
+      @media (max-width: 560px) {
+        .footer-inner {
+          grid-template-columns: 1fr;
+        }
+        .stats-grid {
+          grid-template-columns: 1fr;
+        }
+        .stat + .stat {
+          border-left: none;
+          border-top: 1px solid var(--border2);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAV -->
+    <nav>
+      <a href="#" class="logo">
+        <div class="logo-mark">N</div>
+        Nova
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#">Download</a></li>
+        <li><a href="#">Docs</a></li>
+        <li><a href="#">Learn</a></li>
+        <li><a href="#">Community</a></li>
+        <li><a href="#">Playground</a></li>
+        <li><a href="#" class="nav-cta">Get Started</a></li>
+      </ul>
+      <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu">
+        &#9776;
+      </button>
+    </nav>
+
+    <!-- HERO -->
+    <div class="hero-wrap">
+      <div class="hero-bg"></div>
+      <section class="hero">
+        <div>
+          <div class="hero-badge">
+            <span class="badge-dot"></span>
+            Nova 1.0 — Stable Release
+          </div>
+          <h1>The language that<br /><em>evolves with you.</em></h1>
+          <p class="hero-sub">
+            Nova is a modern, expressive programming language built for speed,
+            safety, and clarity. Write less, ship faster, break nothing — from
+            scripts to systems.
+          </p>
+          <div class="hero-actions">
+            <a href="#" class="btn-primary">Start Building →</a>
+            <a href="#" class="btn-outline">Explore Docs</a>
+          </div>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-header">
+            <div class="traffic-lights">
+              <div class="tl tl-r"></div>
+              <div class="tl tl-y"></div>
+              <div class="tl tl-g"></div>
+            </div>
+            <span class="file-name">main.nv</span>
+            <span></span>
+          </div>
+          <div class="code-tabs">
+            <button class="code-tab active" data-tab="types">
+              Type Safety
+            </button>
+            <button class="code-tab" data-tab="async">Async</button>
+            <button class="code-tab" data-tab="pattern">Matching</button>
+            <button class="code-tab" data-tab="modules">Modules</button>
+          </div>
+          <div class="code-body active" id="tab-types">
+            <div>
+              <span class="ln">1</span
+              ><span class="cc">// Nova infers types automatically</span>
+            </div>
+            <div>
+              <span class="ln">2</span><span class="ck">struct</span>
+              <span class="ct">User</span> {
+            </div>
+            <div>
+              <span class="ln">3</span> name: <span class="ct">String</span>
+            </div>
+            <div>
+              <span class="ln">4</span> age: <span class="ct">Int</span>
+            </div>
+            <div>
+              <span class="ln">5</span> role: <span class="ct">Role</span>
+            </div>
+            <div><span class="ln">6</span>}</div>
+            <div><span class="ln">7</span>&nbsp;</div>
+            <div>
+              <span class="ln">8</span><span class="ck">let</span> user =
+              <span class="ct">User</span> { name:
+              <span class="cs">"Arya"</span>, age: <span class="cn">24</span>,
+              role: .admin }
+            </div>
+            <div>
+              <span class="ln">9</span><span class="cf">print</span>(<span
+                class="err-line"
+                >user.email</span
+              >)
+            </div>
+            <span class="err-msg"
+              >⓪ Field 'email' does not exist on type 'User'. nv(E0042)</span
+            >
+          </div>
+          <div class="code-body" id="tab-async">
+            <div>
+              <span class="ln">1</span><span class="ck">async fn</span>
+              <span class="cf">fetchUser</span>(id: <span class="ct">Int</span>)
+              -> <span class="ct">Result</span>&lt;<span class="ct">User</span
+              >&gt; {
+            </div>
+            <div>
+              <span class="ln">2</span> <span class="ck">let</span> res =
+              <span class="ck">await</span> http.<span class="cf">get</span
+              >(<span class="cs">"/users/{id}"</span>)
+            </div>
+            <div>
+              <span class="ln">3</span> <span class="ck">return</span> res.<span
+                class="cf"
+                >json</span
+              >&lt;<span class="ct">User</span>&gt;()
+            </div>
+            <div><span class="ln">4</span>}</div>
+            <div><span class="ln">5</span>&nbsp;</div>
+            <div>
+              <span class="ln">6</span><span class="ck">let</span> user =
+              <span class="ck">try await</span>
+              <span class="cf">fetchUser</span>(<span class="cn">42</span>)
+            </div>
+            <div>
+              <span class="ln">7</span><span class="cf">print</span>(user.name)
+              <span class="cc">// "Arya"</span>
+            </div>
+            <span class="ok-msg"
+              >✓ Errors are values — no uncaught exceptions</span
+            >
+          </div>
+          <div class="code-body" id="tab-pattern">
+            <div>
+              <span class="ln">1</span><span class="ck">enum</span>
+              <span class="ct">Status</span> { active, paused, banned }
+            </div>
+            <div><span class="ln">2</span>&nbsp;</div>
+            <div>
+              <span class="ln">3</span><span class="ck">fn</span>
+              <span class="cf">describe</span>(s:
+              <span class="ct">Status</span>) ->
+              <span class="ct">String</span> {
+            </div>
+            <div>
+              <span class="ln">4</span> <span class="ck">match</span> s {
+            </div>
+            <div>
+              <span class="ln">5</span> .active =>
+              <span class="cs">"User is active"</span>
+            </div>
+            <div>
+              <span class="ln">6</span> .paused =>
+              <span class="cs">"Account paused"</span>
+            </div>
+            <div>
+              <span class="ln">7</span> .banned =>
+              <span class="cs">"Access denied"</span>
+            </div>
+            <div><span class="ln">8</span> }</div>
+            <div><span class="ln">9</span>}</div>
+          </div>
+          <div class="code-body" id="tab-modules">
+            <div>
+              <span class="ln">1</span><span class="ck">import</span> {
+              <span class="cf">fetch</span>, <span class="cf">json</span> }
+              <span class="ck">from</span> <span class="cs">"nv:http"</span>
+            </div>
+            <div>
+              <span class="ln">2</span><span class="ck">import</span> Logger
+              <span class="ck">from</span> <span class="cs">"./logger.nv"</span>
+            </div>
+            <div><span class="ln">3</span>&nbsp;</div>
+            <div>
+              <span class="ln">4</span><span class="ck">export fn</span>
+              <span class="cf">run</span>() {
+            </div>
+            <div>
+              <span class="ln">5</span> Logger.<span class="cf">info</span
+              >(<span class="cs">"Server starting on :8080"</span>)
+            </div>
+            <div>
+              <span class="ln">6</span> <span class="cf">serve</span>({ port:
+              <span class="cn">8080</span>, handler:
+              <span class="cf">router</span> })
+            </div>
+            <div><span class="ln">7</span>}</div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- FEATURES -->
+    <section class="features">
+      <div class="section-inner">
+        <p class="section-label">Why Nova</p>
+        <h2 class="section-title">Built for the modern era</h2>
+        <p class="section-sub">
+          Nova takes the best ideas from the last 30 years of language design,
+          and throws away everything else.
+        </p>
+        <div class="cards">
+          <div class="card">
+            <div class="card-icon">⚡</div>
+            <h3>Blazing Fast</h3>
+            <p>
+              Nova compiles to native machine code with zero garbage collection
+              pauses. Comparable to C++ performance with a fraction of the
+              complexity.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🛡️</div>
+            <h3>Memory Safe</h3>
+            <p>
+              A strict ownership model eliminates null pointer errors, data
+              races, and use-after-free bugs at compile time — before your code
+              even runs.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">✨</div>
+            <h3>Expressive Syntax</h3>
+            <p>
+              Write code that reads like plain English. Nova's clean syntax
+              reduces boilerplate and lets you focus on solving problems, not
+              fighting the language.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🔄</div>
+            <h3>First-class Async</h3>
+            <p>
+              Async/await built into the language core. Write concurrent code
+              that looks synchronous. No callback hell, no promise chains.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">📦</div>
+            <h3>Rich Standard Library</h3>
+            <p>
+              HTTP, JSON, crypto, file I/O, and more — all batteries included.
+              Stop hunting for packages for basic tasks.
+            </p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🧩</div>
+            <h3>Interoperable</h3>
+            <p>
+              Call C libraries directly. Compile to WebAssembly. Generate
+              bindings for Python and Node.js. Nova plays well with your
+              existing stack.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARE -->
+    <section class="compare">
+      <div class="section-inner">
+        <p class="section-label">Side by Side</p>
+        <h2 class="section-title">Nova vs. the alternatives</h2>
+        <p class="section-sub">
+          See how Nova's clean syntax compares to writing the same code in other
+          popular languages.
+        </p>
+        <div class="compare-grid">
+          <div class="compare-col">
+            <div class="compare-header">
+              <span class="compare-lang">Python</span>
+            </div>
+            <div class="compare-code">
+              <span class="ck">def</span>
+              <span class="cf">fetch_users</span>(active=<span class="co"
+                >True</span
+              >):<br />
+              &nbsp;&nbsp;users = db.query(<span class="cs"
+                >"SELECT * FROM users"</span
+              >)<br />
+              &nbsp;&nbsp;<span class="ck">if</span> active:<br />
+              &nbsp;&nbsp;&nbsp;&nbsp;users = [u <span class="ck">for</span> u
+              <span class="ck">in</span> users
+              <span class="ck">if</span> u[<span class="cs">"active"</span
+              >]]<br />
+              &nbsp;&nbsp;<span class="ck">return</span> users<br />
+              &nbsp;<br />
+              <span class="cc"># No types, no compile-time safety</span><br />
+              result = fetch_users()<br />
+              <span class="cf">print</span>(result[<span class="cn">0</span
+              >][<span class="cs">"nmae"</span>])
+              <span class="cc"># typo! crashes at runtime</span>
+            </div>
+          </div>
+          <div class="compare-col nova">
+            <div class="compare-header">
+              <span class="compare-lang">Nova</span>
+              <span class="compare-badge">✓ Safer</span>
+            </div>
+            <div class="compare-code">
+              <span class="ck">fn</span>
+              <span class="cf">fetchUsers</span>(active:
+              <span class="ct">Bool</span> = <span class="co">true</span>) ->
+              <span class="ct">[]User</span> {<br />
+              &nbsp;&nbsp;<span class="ck">let</span> users = db.<span
+                class="cf"
+                >query</span
+              >&lt;<span class="ct">User</span>&gt;(<span class="cs"
+                >"SELECT * FROM users"</span
+              >)<br />
+              &nbsp;&nbsp;<span class="ck">return</span> active ? users.<span
+                class="cf"
+                >filter</span
+              >(\u => u.active) : users<br />
+              }<br />
+              &nbsp;<br />
+              <span class="cc">// Types checked at compile time</span><br />
+              <span class="ck">let</span> result =
+              <span class="cf">fetchUsers</span>()<br />
+              <span class="cf">print</span>(<span class="err-line"
+                >result[<span class="cn">0</span>].nmae</span
+              >) <span class="cc">// caught before running!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GET STARTED -->
+    <section class="get-started">
+      <div class="section-inner">
+        <p class="section-label">Quick Start</p>
+        <h2 class="section-title">Up and running in minutes</h2>
+        <p class="section-sub">
+          From installation to your first running program — it takes less than 5
+          minutes.
+        </p>
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3>Install Nova</h3>
+            <p>
+              One command installs the Nova compiler, package manager, and LSP
+              server for your editor.
+            </p>
+            <div class="step-cmd">
+              <span>$</span> curl -fsSL novalang.dev/install | sh
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3>Create a project</h3>
+            <p>
+              The
+              <code
+                style="
+                  font-family: &quot;JetBrains Mono&quot;, monospace;
+                  color: #7fdbca;
+                  font-size: 13px;
+                "
+                >nv new</code
+              >
+              command scaffolds a project with sensible defaults, ready to run.
+            </p>
+            <div class="step-cmd">
+              <span>$</span> nv new my-app && cd my-app
+            </div>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3>Run your code</h3>
+            <p>
+              Build and run in one step. Nova compiles fast enough that it feels
+              like an interpreted language.
+            </p>
+            <div class="step-cmd"><span>$</span> nv run main.nv</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="stats">
+      <div class="section-inner">
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-num"><em>2×</em></div>
+            <div class="stat-label">
+              faster compile time than Go on large projects
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-num"><em>0</em></div>
+            <div class="stat-label">
+              runtime exceptions from null or type errors
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-num"><em>50k+</em></div>
+            <div class="stat-label">
+              developers using Nova within the first 6 months
+            </div>
+          </div>
+          <div class="stat">
+            <div class="stat-num"><em>98%</em></div>
+            <div class="stat-label">
+              of users said they would recommend Nova to a colleague
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="testimonials">
+      <div class="section-inner">
+        <p class="section-label">Community</p>
+        <h2 class="section-title">Loved by developers</h2>
+        <p class="section-sub">
+          Hear from engineers who have shipped production systems with Nova.
+        </p>
+        <div class="testimonials-grid">
+          <div class="tcard">
+            <blockquote>
+              "Switching to Nova cut our backend bug count in half. The compiler
+              catches things we used to only find in production. It's scary how
+              good it is."
+            </blockquote>
+            <cite>
+              <div class="avatar">RS</div>
+              <div>
+                <span class="cite-name">Rizal Santoso</span>
+                <span class="cite-role">Lead Backend Engineer, Tokopedia</span>
+              </div>
+            </cite>
+          </div>
+          <div class="tcard">
+            <blockquote>
+              "I've used Go, Rust, and TypeScript. Nova is the first language
+              that feels like it was designed by people who actually write
+              software every day."
+            </blockquote>
+            <cite>
+              <div class="avatar">AW</div>
+              <div>
+                <span class="cite-name">Amira Wijaya</span>
+                <span class="cite-role">Founder, indie dev tools startup</span>
+              </div>
+            </cite>
+          </div>
+          <div class="tcard">
+            <blockquote>
+              "We rewrote our data pipeline in Nova. Same logic, 40% less code,
+              3× faster runtime. It went smoother than any migration we've done
+              before."
+            </blockquote>
+            <cite>
+              <div class="avatar">BP</div>
+              <div>
+                <span class="cite-name">Budi Prasetyo</span>
+                <span class="cite-role">Data Platform, Gojek</span>
+              </div>
+            </cite>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BUILT WITH -->
+    <div class="logos">
+      <div class="section-inner">
+        <p class="logos-label">Built with Nova</p>
+        <div class="logos-row">
+          <span class="logo-chip">Novabase</span>
+          <span class="logo-chip">Starship CLI</span>
+          <span class="logo-chip">Axon Web</span>
+          <span class="logo-chip">Flare API</span>
+          <span class="logo-chip">Nimbus</span>
+          <span class="logo-chip">Driftwood</span>
+          <span class="logo-chip">Helix ORM</span>
+          <span class="logo-chip">Prism UI</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="section-inner">
+        <h2>Start writing Nova today.</h2>
+        <p>
+          Join thousands of developers building fast, safe software with a
+          language that gets out of your way.
+        </p>
+        <div class="cta-actions">
+          <a href="#" class="btn-primary">Read the Docs</a>
+          <a href="#" class="btn-outline">Try in Browser</a>
+          <a href="#" class="btn-outline">⭐ Star on GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-inner">
+        <div>
+          <a href="#" class="logo">
+            <div class="logo-mark">N</div>
+            Nova
+          </a>
+          <p class="footer-desc">
+            Nova is an open-source programming language designed for safety,
+            speed, and developer happiness.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Learn</h4>
+          <ul>
+            <li><a href="#">Get Started</a></li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Language Tour</a></li>
+            <li><a href="#">Standard Library</a></li>
+            <li><a href="#">Examples</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="#">Forum</a></li>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Discord</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">@novalang</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>More</h4>
+          <ul>
+            <li><a href="#">Playground</a></li>
+            <li><a href="#">Changelog</a></li>
+            <li><a href="#">Roadmap</a></li>
+            <li><a href="#">Branding</a></li>
+            <li><a href="#">License</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2024 Nova Language — Made with ♥ using Claude</span>
+        <span
+          ><a href="#">Privacy Policy</a> &nbsp;·&nbsp;
+          <a href="#">Terms of Use</a></span
+        >
+      </div>
+    </footer>
+
+    <script>
+      // Tabs
+      document.querySelectorAll(".code-tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document
+            .querySelectorAll(".code-tab")
+            .forEach((t) => t.classList.remove("active"));
+          document
+            .querySelectorAll(".code-body")
+            .forEach((b) => b.classList.remove("active"));
+          tab.classList.add("active");
+          document
+            .getElementById("tab-" + tab.dataset.tab)
+            .classList.add("active");
+        });
+      });
+
+      // Hamburger
+      document.getElementById("hamburger").addEventListener("click", () => {
+        document.getElementById("nav-links").classList.toggle("open");
+      });
+    </script>
+  </body>
+</html>
